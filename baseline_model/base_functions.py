@@ -362,8 +362,7 @@ def decode(encoded_text, int_to_chars):
     """
     Decode integer representation back to text
     """
-    
-    # Convert JAX arrays to NumPy
-    encoded_text = np.array(encoded_text)
 
-    return ''.join(int_to_chars.get(int(i), '?') for i in list(encoded_text[0]))
+    generated_text = ''.join(int_to_chars.get(int(i), '?') for i in list(encoded_text[0]))
+
+    return generated_text
