@@ -239,7 +239,7 @@ def train_step(model, params, opt_state, x, y, tx, *, rng):
 # JIT compile the train_step function for efficiency
 train_step = jax.jit(train_step, static_argnames=('model','tx'))
 
-def calculate_throughput(max_iters, max_time, m1, params, opt_state, optimizer, rng, batch_size, seq_len, compute_budget, train_data):
+def calculate_throughput(max_test_iters, max_test_time, model, params, opt_state, optimizer, rng, batch_size, seq_len, compute_budget, train_data):
     """
     Calculate training throughput (tokens/second) and estimate max steps within compute budget.
     
@@ -262,36 +262,33 @@ def calculate_throughput(max_iters, max_time, m1, params, opt_state, optimizer, 
     test_params = params # Copy of params for testing
     test_opt_state = opt_state # Copy of opt_state for testing
 
-    for it in range(max_iters): # Loop for max_iters
+    for it in range(max_test_iters): # Loop for max_iters
 
         inputs, targets = get_batch(train_data, batch_size, seq_len) # Get batch
         rng, sub = jax.random.split(rng) # Split RNG
         new_params, new_opt_state, _ = train_step( # Perform train step
-            m1, test_params, test_opt_state, inputs, targets, optimizer, rng=sub
+            model, test_params, test_opt_state, inputs, targets, optimizer, rng=sub
         )
 
         # Update params and opt_state
         test_params = new_params
         test_opt_state = new_opt_state
 
-        if time.time() - time_start > max_time: # Check time limit
+        if time.time() - time_start > max_test_time: # Check time limit
             print(f"Stopping benchmark at iteration {it} due to time limit.")
             break
 
     t_end = time.time() # Record end time
-    
-    if it == 0: # Case where only one iteration was run
-        it = 1  # To avoid division by zero
 
     elapsed_time = t_end - time_start # Calculate elapsed time
-    total_tokens = it * batch_size * seq_len # Total tokens processed
+    total_tokens = (it + 1) * batch_size * seq_len # Total tokens processed
     throughput = total_tokens / elapsed_time # Tokens per second
 
     print(f"Benchmark completed in {elapsed_time:.2f} seconds.")
     print(f"Total tokens processed: {total_tokens}")
     print(f"Throughput: {throughput:.2f} tokens/second")
 
-    time_per_step = elapsed_time / it # Time per step
+    time_per_step = elapsed_time / (it + 1) # Time per step
     max_steps = (compute_budget * 60 * 60) // time_per_step # Estimate max steps
     print(f"Estimated max steps within compute budget: {max_steps}")
 
