@@ -1,0 +1,1 @@
+step, train_loss, train_time, val_loss, val_time, train_acc, val_acc, last_char_acc, last_char_val_acc
