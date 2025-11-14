@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "last_position_without_aux",
+  "description": "Ablation test for loss function applied at the last position, without auxiliary loss",
   "seed": 0,
 
   "model": {
@@ -22,7 +22,7 @@
     "use_auxiliary_loss": false,
     "aux_heads": 2,
     "aux_weight": 0.4,
-    "loss_type": "cross_entropy"
+    "loss_type": "last_position"
   },
 
   "throughput": {

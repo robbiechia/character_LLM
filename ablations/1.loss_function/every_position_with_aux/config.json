@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "every_position_with_aux",
+  "description": "Ablation test for loss function applied at every position, with auxiliary loss",
   "seed": 0,
 
   "model": {
@@ -19,7 +19,7 @@
     "pos_encoding": "none",
     "attention_type": "MHA",
     
-    "use_auxiliary_loss": false,
+    "use_auxiliary_loss": true,
     "aux_heads": 2,
     "aux_weight": 0.4,
     "loss_type": "cross_entropy"
