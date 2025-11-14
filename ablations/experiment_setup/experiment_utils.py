@@ -44,7 +44,10 @@ import jax.numpy as jnp
 import numpy as np
 import optax
 import time
-import experiment_model as model
+import os
+import json
+import pickle
+from ablations.experiment_setup import experiment_model as model
 
 # ---------------------------- #
 # Data Preprocessing Functions #
@@ -174,8 +177,9 @@ def create_train_state(
     # Pass the dummy input through the model to initialize parameters
     variables = model_obj.init({"params": rng}, dummy_input, deterministic=False)
     params = variables['params'] # Extract parameters from the initialized variables
+    constants = variables.get('constants', {}) # Extract constants if any
 
-    return model_obj, params
+    return model_obj, params, constants
 
 # ------------------------------------ #
 # Training & Evaluation Loop Functions #
@@ -206,7 +210,6 @@ def get_batch(text_int, B, T):
 
     return jnp.array(x, dtype=jnp.int32), jnp.array(y, dtype=jnp.int32)
 
-@jax.jit
 def loss_and_metrics(logits, targets, loss_type, aux_loss, aux_weight, aux_logits):
     """
     Compute loss & metrics given model logits and ground-truth targets.
@@ -285,7 +288,7 @@ def loss_and_metrics(logits, targets, loss_type, aux_loss, aux_weight, aux_logit
 
     return total_loss, {"loss": total_loss, "acc": acc_all, "acc_last": acc_last}
 
-def train_step(model, params, opt_state, x, y, tx, *, rng, loss_type, aux_loss, aux_weight):
+def train_step(model, params, constants, opt_state, x, y, tx, rng, loss_type, aux_loss, aux_weight):
     """
     Single optimization step using optax optimizer.
 
@@ -307,7 +310,7 @@ def train_step(model, params, opt_state, x, y, tx, *, rng, loss_type, aux_loss, 
 	# define loss function for computing gradients
     def loss_fn(params):
 
-        output = model.apply({"params": params}, x, deterministic=False, rngs={"dropout": rng})
+        output = model.apply({"params": params, "constants": constants}, x, deterministic=False, rngs={"dropout": rng})
 
         final_logits = output['logits']
         aux_logits = output.get('aux_logits', None)
@@ -326,7 +329,7 @@ def train_step(model, params, opt_state, x, y, tx, *, rng, loss_type, aux_loss, 
     return new_params, new_opt_state, metrics
 
 # JIT compile the train_step function for efficiency
-train_step = jax.jit(train_step, static_argnames=('model','tx'))
+train_step = jax.jit(train_step, static_argnames=('model','tx', 'loss_type', 'aux_loss'))
 
 def calculate_throughput(
         max_test_iters, 
@@ -342,7 +345,8 @@ def calculate_throughput(
         train_data,
         loss_type, 
         aux_loss, 
-        aux_weight
+        aux_weight,
+        constants
     ):
     """
     Calculate training throughput (tokens/second) and estimate max steps within compute budget.
@@ -371,15 +375,17 @@ def calculate_throughput(
         inputs, targets = get_batch(train_data, batch_size, seq_len) # Get batch
         rng, sub = jax.random.split(rng) # Split RNG
         new_params, new_opt_state, _ = train_step( # Perform train step
-            model, 
-            test_params, 
-            test_opt_state, 
-            inputs, targets, 
-            optimizer,  
-            loss_type, 
-            aux_loss, 
-            aux_weight,
-            rng=sub
+            model = model, 
+            params = test_params, 
+            opt_state = test_opt_state, 
+            x = inputs, 
+            y = targets, 
+            tx = optimizer,
+            rng = sub, 
+            loss_type = loss_type, 
+            aux_loss = aux_loss, 
+            aux_weight = aux_weight,
+            constants = constants
         )
 
         # Update params and opt_state
@@ -464,7 +470,7 @@ def sample_categorical(rng, logits, temperature) -> jnp.ndarray:
     
     return jax.random.categorical(rng, logits, axis=-1).astype(jnp.int32)
 
-def generate_tokens(model, params, rng, context, length, *, block_size, temperature, sample, pad_id, deterministic):
+def generate_tokens(model, params, constants, rng, context, length, *, block_size, temperature, sample, pad_id, deterministic):
     """
     Generate `length` new tokens autoregressively from a starting `context`.
 
@@ -492,17 +498,18 @@ def generate_tokens(model, params, rng, context, length, *, block_size, temperat
     # optional rngs for model.apply calls
     def _apply_forward(tokens, rng_in, deterministic):
         if deterministic:
-            return model.apply({'params': params}, tokens, deterministic=True)
+            return model.apply({'params': params, 'constants': constants}, tokens, deterministic=True)
         else:
             # if model uses dropout at inference, provide rngs
-            return model.apply({'params': params}, tokens, deterministic=False, rngs={'dropout': rng_in})
+            return model.apply({'params': params, 'constants': constants}, tokens, deterministic=False, rngs={'dropout': rng_in})
 
     # 1) one autoregressive step (called repeatedly by lax.scan)
     def _step(carry, _):
         
         rng_loop, cur_ctx = carry # cur_ctx: (B, block_size)
         # forward pass over the full window
-        logits = _apply_forward(cur_ctx, rng_loop, deterministic) # (B, block_size, V)
+        output = _apply_forward(cur_ctx, rng_loop, deterministic)
+        logits = output['logits'] # (B, block_size, V)
         last_logits = logits[:, -1, :] # (B, V) — distribution for the next token
 
         # sample or take argmax
@@ -535,57 +542,74 @@ def decode(encoded_text, int_to_chars):
 
     return generated_text
 
-"""
-In this module, we 
-"""
-
-import os
-import json
-import time
-import pickle
-from datetime import datetime
 
 # ------- #
 # Logging #
 # ------- #
 
-def initialize_log(log_path):
+def initialize_training_log(log_path):
     """
-    Initializes the log file with a header.
+    Initializes the training log file with a header.
+    
     Args:
         log_path (str): Path to the log file.
     """
 
     with open(log_path, 'w') as log_file:
-        log_file.write("step, train_loss, train_time, val_loss, val_time, train_acc, val_acc, last_char_acc, last_char_val_acc")
+        log_file.write("step, train_loss, train_time, train_acc, last_char_acc")
 
-    print(f"[initialize_log] Initialized log file at {log_path}")
+    print(f"[initialize_training_log] Initialized training log file at {log_path}")
 
-def update_log(log_path, step, train_loss, train_time, val_loss, val_time, train_acc, val_acc, last_char_acc, last_char_val_acc):
+def initialize_validation_log(log_path):
     """
-    Appends a new entry to the log file.
+    Initializes the validation log file with a header.
+    
+    Args:
+        log_path (str): Path to the log file.
+    """
+
+    with open(log_path, 'w') as log_file:
+        log_file.write("step, val_loss, val_time, val_acc, last_char_val_acc")
+
+    print(f"[initialize_validation_log] Initialized validation log file at {log_path}")
+
+def update_training_log(log_path, step, train_loss, train_time, train_acc, last_char_acc):
+    """
+    Appends a new entry to the training log file.
 
     Args:
         log_path (str): Path to the log file.
         step (int): Current training step.
         train_loss (float): Training loss.
         train_time (float): Time taken for training.
+        train_acc (float): Training accuracy.
+        last_char_acc (float): Last character accuracy on training set.
+    """
+
+    with open(log_path, 'a') as log_file:
+        log_file.write(f"\n{step}, {train_loss:.4f}, {train_time:.2f}, {train_acc:.4f}, {last_char_acc:.4f}")
+    
+def update_validation_log(log_path, step, val_loss, val_time, val_acc, last_char_val_acc):
+    """
+    Appends a new entry to the training log file.
+
+    Args:
+        log_path (str): Path to the log file.
+        step (int): Current training step.
         val_loss (float): Validation loss.
         val_time (float): Time taken for validation.
-        train_acc (float): Training accuracy.
         val_acc (float): Validation accuracy.
-        last_char_acc (float): Last character accuracy on training set.
         last_char_val_acc (float): Last character accuracy on validation set.
     """
 
     with open(log_path, 'a') as log_file:
-        log_file.write(f"\n{step}, {train_loss:.4f}, {train_time:.2f}, {val_loss:.4f}, {val_time:.2f}, {train_acc:.4f}, {val_acc:.4f}, {last_char_acc:.4f}, {last_char_val_acc:.4f}")
+        log_file.write(f"\n{step}, {val_loss:.4f}, {val_time:.2f}, {val_acc:.4f}, {last_char_val_acc:.4f}")
     
 # ------------- #
 # Checkpointing #
 # ------------- #
 
-def save_checkpoint(checkpoint_path, params, opt_state, step, time_elapsed):
+def save_checkpoint(checkpoint_path, params, constants, opt_state, step, time_elapsed):
     """
     Saves the model parameters and optimizer state as a checkpoint.
 
@@ -599,6 +623,7 @@ def save_checkpoint(checkpoint_path, params, opt_state, step, time_elapsed):
     checkpoint = {
         'step': step,
         'params': params,
+        'constants': constants,
         'opt_state': opt_state,
         'time_elapsed': time_elapsed
     }
@@ -607,7 +632,7 @@ def save_checkpoint(checkpoint_path, params, opt_state, step, time_elapsed):
 
     print(f"[save_checkpoint] Saved checkpoint at step {step} to {checkpoint_path}")
 
-def load_checkpoint(checkpoint_path, params, opt_state):
+def load_checkpoint(checkpoint_path, params, constants, opt_state):
     """
     Loads the model parameters and optimizer state from a checkpoint if it exists.
 
@@ -624,14 +649,15 @@ def load_checkpoint(checkpoint_path, params, opt_state):
         print(f"[load_checkpoint] No checkpoint found at {checkpoint_path}")
         print(f"[load_checkpoint] Starting training as per usual.")
 
-        return params, opt_state, 0
+        return params, opt_state, constants, 0
 
     with open(checkpoint_path, 'rb') as f:
         checkpoint = pickle.load(f)
     print(f"[load_checkpoint] Loaded checkpoint from {checkpoint_path} at step {checkpoint['step']}")
+    print(f"[load_checkpoint] Resuming training from step {checkpoint['step']}")
     print(f"[load_checkpoint] Time elapsed until checkpoint: {checkpoint['time_elapsed']:.2f} seconds")
     
-    return checkpoint["params"], checkpoint["opt_state"], checkpoint["step"]
+    return checkpoint["params"], checkpoint["opt_state"], checkpoint["constants"], checkpoint["step"]
 
 # ----------------- #
 # Config Management #

@@ -164,10 +164,11 @@ class Attention(nn.Module):
             raise ValueError(f"Unknown attention_type: {self.attention_type}")
         
         self.kv_heads = kv_heads
+        head_dim = self.d_model // self.n_heads
 
         # Keys and values have kv_heads instead of n_heads
-        self.k_proj = nn.Dense(self.d_model, dtype=self.dtype) # Key projection
-        self.v_proj = nn.Dense(self.d_model, dtype=self.dtype) # Value projection
+        self.k_proj = nn.Dense(self.kv_heads * head_dim, dtype=self.dtype) # Key projection
+        self.v_proj = nn.Dense(self.kv_heads * head_dim, dtype=self.dtype) # Value projection
         self.out_proj = nn.Dense(self.d_model, dtype=self.dtype) # Output projection
         self.dropout_layer = nn.Dropout(rate=self.dropout) # Dropout layer
 

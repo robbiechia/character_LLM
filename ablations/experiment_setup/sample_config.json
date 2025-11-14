@@ -15,11 +15,11 @@
     "weight_decay": 0.0,
     "label_smoothing": 0.0,
 
-    "mixed_precision": true,
-    "pos_encoding": "learned",
+    "mixed_precision": false,
+    "pos_encoding": "alibi",
     "attention_type": "MHA",
     
-    "use_auxiliary_loss": false,
+    "use_auxiliary_loss": true,
     "aux_heads": 2,
     "aux_weight": 0.4,
     "loss_type": "cross_entropy"
@@ -36,6 +36,6 @@
     "batch_size": 32,
     "learning_rate": 1e-3,
     "lr_schedule": "cosine_decay",
-    "optimizer": "adamw"
+    "optimizer": "adam"
   }
 }
