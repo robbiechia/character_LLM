@@ -179,32 +179,35 @@ class Attention(nn.Module):
     ### define extra RoPE utils ###
 
     def _rotate_half(self, x):
-        # (B, T, H, D) -> rotate last dim
-        x1 = x[..., ::2]
-        x2 = x[..., 1::2]
-        return jnp.stack([-x2, x1], axis=-1).reshape(x.shape)
+        # x: (..., D)
+        D = x.shape[-1]
+        x = x.reshape(*x.shape[:-1], D // 2, 2)
+        x1 = x[..., :, 0]
+        x2 = x[..., :, 1]
+        x_rot = jnp.stack([-x2, x1], axis=-1)
+        return x_rot.reshape(*x.shape[:-2], D)
     
     def apply_rope(self, q, k):
-        _, T, _, D = q.shape # (B, T, H, head_dim)
+        # q, k: (B, T, H, D)
+        _, T, _, D = q.shape
         half = D // 2
 
-        # RoPE frequencies
-        idx = jnp.arange(T)[:, None]  # (T, 1)
-        freq = jnp.exp(-jnp.arange(0, half, 2) * (jnp.log(10000.0) / half))  # (half/2,)
-        freq = freq[None, None, None, :]  # (1, half/2, 1)
+        q1, q2 = q[..., :half], q[..., half:]
+        k1, k2 = k[..., :half], k[..., half:]
 
-        sin = jnp.sin(idx * freq)[None, :, None, :]  # (T, half/2, 1)
-        cos = jnp.cos(idx * freq)[None, :, None, :]  # (T, half/2, 1)
+        pos = jnp.arange(T, dtype=self.dtype)
+        dim = jnp.arange(half, dtype=self.dtype)
+        inv_freq = jnp.exp(-jnp.log(10000.0) * dim / half)  # (half,)
 
-        q1, q2 = q[..., :half], q[..., half:] # Split last dim
-        k1, k2 = k[..., :half], k[..., half:] # Split last dim
+        angles = pos[:, None] * inv_freq[None, :]           # (T, half)
+        sin = jnp.sin(angles)[None, :, None, :]             # (1, T, 1, half)
+        cos = jnp.cos(angles)[None, :, None, :]             # (1, T, 1, half)
 
-        q_rotated = q1 * cos + self._rotate_half(q1) * sin
-        k_rotated = k1 * cos + self._rotate_half(k1) * sin
+        q1_rot = q1 * cos + self._rotate_half(q1) * sin
+        k1_rot = k1 * cos + self._rotate_half(k1) * sin
 
-        q = jnp.concatenate([q_rotated, q2], axis=-1)
-        k = jnp.concatenate([k_rotated, k2], axis=-1)
-
+        q = jnp.concatenate([q1_rot, q2], axis=-1)
+        k = jnp.concatenate([k1_rot, k2], axis=-1)
         return q, k
 
     ### define extra ALiBi utils ###
@@ -291,6 +294,9 @@ class DecoderBlock(nn.Module):
         n_heads: Number of attention heads.
         mlp_ratio: Expansion factor for the MLP intermediate hidden size.
         dropout: Dropout rate to apply in attention and MLP.
+        attention_type: Type of attention mechanism (e.g., 'MHA', 'MQA', etc.)
+        pos_encoding: Positional encoding type (e.g., 'none', 'sinusoidal', etc.)
+        dtype: Data type for model computations.
 
     Input Shape: (B, T, D)
     Output Shape: (B, T, D)
@@ -301,6 +307,7 @@ class DecoderBlock(nn.Module):
     mlp_ratio: int = 4
     dropout: float = 0.0
     attention_type: str = "MHA"
+    pos_encoding: str = "none"
     dtype: jnp.dtype = jnp.float32
 
     def setup(self):
@@ -311,6 +318,7 @@ class DecoderBlock(nn.Module):
             d_model=self.d_model,
             dropout=self.dropout,
             attention_type=self.attention_type,
+            pos_encoding=self.pos_encoding,
             dtype=self.dtype
         )
         self.ln2 = nn.LayerNorm(dtype=self.dtype) # Pre-LayerNorm before MLP
@@ -396,6 +404,7 @@ class DecoderOnlyTransformer(nn.Module):
                 mlp_ratio=self.mlp_ratio, # MLP expansion factor
                 dropout=self.dropout, # Dropout rate
                 attention_type=self.attention_type, # Type of attention
+                pos_encoding=self.pos_encoding, # Type of positional encoding
                 dtype=self.dtype
             ) for _ in range(self.n_layers)
         ]
