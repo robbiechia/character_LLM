@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "rotary",
+  "description": "Ablation test for rotary positional encoding",
   "seed": 0,
 
   "model": {

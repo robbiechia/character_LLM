@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "alibi",
+  "description": "Ablation test for ALiBi positional encoding",
   "seed": 0,
 
   "model": {

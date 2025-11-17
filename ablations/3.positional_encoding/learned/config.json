@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "learned",
+  "description": "Ablation test for learned positional encoding",
   "seed": 0,
 
   "model": {

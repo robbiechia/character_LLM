@@ -1,6 +1,6 @@
 {
-  "experiment_name": "every_position_without_aux",
-  "description": "Ablation test for loss function applied at every position, without auxiliary loss",
+  "experiment_name": "sinusoidal",
+  "description": "Ablation test for sinusoidal positional encoding",
   "seed": 0,
 
   "model": {
