@@ -151,7 +151,12 @@ class Attention(nn.Module):
 
     def setup(self):
 
+        self.head_dim = self.d_model // self.n_heads # Dimension per head
+
         self.q_proj = nn.Dense(self.d_model, dtype=self.dtype) # Query projection, always has full heads
+        self.k_proj = nn.Dense(self.d_model, dtype=self.dtype) # Key projection
+        self.v_proj = nn.Dense(self.d_model, dtype=self.dtype) # Value projection
+        self.out_proj = nn.Dense(self.d_model, dtype=self.dtype) # Output projection
 
         # Configure K and V projections based on attention type
         if self.attention_type == "MHA":
@@ -164,12 +169,7 @@ class Attention(nn.Module):
             raise ValueError(f"Unknown attention_type: {self.attention_type}")
         
         self.kv_heads = kv_heads
-        head_dim = self.d_model // self.n_heads
-
-        # Keys and values have kv_heads instead of n_heads
-        self.k_proj = nn.Dense(self.kv_heads * head_dim, dtype=self.dtype) # Key projection
-        self.v_proj = nn.Dense(self.kv_heads * head_dim, dtype=self.dtype) # Value projection
-        self.out_proj = nn.Dense(self.d_model, dtype=self.dtype) # Output projection
+    
         self.dropout_layer = nn.Dropout(rate=self.dropout) # Dropout layer
 
         # Extra step for ALiBi, precompute slopes
@@ -237,29 +237,40 @@ class Attention(nn.Module):
 
         B, T, D = x.shape
         H = self.n_heads
+        head_dim = self.head_dim
         KvH = self.kv_heads
-        head_dim = D // H
 
         # Project inputs to Q, K, V
         q = self.q_proj(x).reshape(B, T, H, head_dim)
-        k = self.k_proj(x).reshape(B, T, KvH, head_dim)
-        v = self.v_proj(x).reshape(B, T, KvH, head_dim)
+        k_full = self.k_proj(x).reshape(B, T, H, head_dim)
+        v_full = self.v_proj(x).reshape(B, T, H, head_dim)
+
+        if self.attention_type == "MHA":
+            k = k_full  # (B, T, H, head_dim)
+            v = v_full  # (B, T, H, head_dim)
+
+        elif self.attention_type == "MQA":
+            k_shared = k_full[:, :, :1, :]  # (B, T, 1, head_dim)
+            v_shared = v_full[:, :, :1, :]  # (B, T, 1, head_dim)
+            k = jnp.repeat(k_shared, H, axis=2)  # (B, T, H, head_dim)
+            v = jnp.repeat(v_shared, H, axis=2)  # (B, T, H, head_dim)
+
+        elif self.attention_type == "GQA":
+            groups = KvH
+            if H % groups != 0:
+                raise ValueError(f"Number of heads {H} must be divisible by number of groups {groups} for GQA.")
+            group_size = H // groups
+
+            k_groups = k_full.reshape(B, T, groups, group_size, head_dim)[:, :, :, 0, :]  # (B, T, groups, group_size, head_dim)
+            v_groups = v_full.reshape(B, T, groups, group_size, head_dim)[:, :, :, 0, :]  # (B, T, groups, group_size, head_dim)
+
+            # Expand back to one K/V per head within each group
+            k = jnp.repeat(k_groups, group_size, axis=2)  # (B, T, H, head_dim)
+            v = jnp.repeat(v_groups, group_size, axis=2)  # (B, T, H, head_dim)
 
         # Apply RoPE if specified
         if self.pos_encoding == "rotary":
             q, k = self.apply_rope(q, k)
-
-        # Compute attention scores and outputs based on attention type
-        if self.attention_type == "MQA":
-            # Expand K and V to match number of heads
-            k = jnp.repeat(k, H, axis=2)  # (B, T, H, head_dim)
-            v = jnp.repeat(v, H, axis=2)  # (B, T, H, head_dim)
-
-        elif self.attention_type == "GQA":
-            # Repeat K and V for grouped heads
-            repeat_factor = H // KvH
-            k = jnp.repeat(k, repeat_factor, axis=2)  # (B, T, H, head_dim)
-            v = jnp.repeat(v, repeat_factor, axis=2)  # (B, T, H, head_dim)
 
         # Attention computation       
         attention_scores = jnp.einsum('bthd,bThd->bhtT', q, k) / jnp.sqrt(head_dim)  # Scaled dot-product
