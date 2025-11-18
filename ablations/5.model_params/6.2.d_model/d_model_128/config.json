@@ -1,0 +1,41 @@
+{
+  "experiment_name": "d_model_128",
+  "description": "Ablation test for d_model set to 128",
+  "seed": 0,
+
+  "model": {
+    "vocab_size": 27,
+    "d_model": 128,
+    "n_heads": 4,
+    "n_layers": 4,
+    "mlp_ratio": 4,
+    "seq_len": 64,
+
+    "dropout": 0.0,
+    "weight_decay": 0.0,
+    "label_smoothing": 0.0,
+
+    "mixed_precision": false,
+    "pos_encoding": "rotary",
+    "attention_type": "GQA",
+    
+    "use_auxiliary_loss": false,
+    "aux_heads": 2,
+    "aux_weight": 0.1,
+    "loss_type": "cross_entropy"
+  },
+
+  "throughput": {
+    "max_test_iters": 1000,
+    "max_test_time_in_seconds": 60,
+    "compute_budget_hours": 2
+  },
+
+  "training": {
+    "val_fraction": 0.01,
+    "batch_size": 32,
+    "learning_rate": 1e-3,
+    "lr_schedule": "none",
+    "optimizer": "adam"
+  }
+}

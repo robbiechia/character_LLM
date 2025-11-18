@@ -1,6 +1,6 @@
 {
-  "experiment_name": "GQA",
-  "description": "Ablation test for GQA attention mechanism",
+  "experiment_name": "n_layers_6",
+  "description": "Ablation test for 6 layers",
   "seed": 0,
 
   "model": {
