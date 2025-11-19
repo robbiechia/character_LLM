@@ -1,6 +1,6 @@
 {
-  "experiment_name": "batch_size_32",
-  "description": " Hyperparameter tuning for Batch Size = 32",
+  "experiment_name": "batch_size_128",
+  "description": " Hyperparameter tuning for Batch Size = 128",
   "seed": 0,
 
   "model": {
@@ -33,7 +33,7 @@
 
   "training": {
     "val_fraction": 0.01,
-    "batch_size": 32,
+    "batch_size": 128,
     "learning_rate": 1e-3,
     "lr_schedule": "none",
     "optimizer": "adam",
