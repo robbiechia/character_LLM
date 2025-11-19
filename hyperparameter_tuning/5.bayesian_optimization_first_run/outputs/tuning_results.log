@@ -1,0 +1,537 @@
+Beginning of Hyperparameter Tuning Results
+
+======================================================================
+
+[Trial 0] Starting throughput calculation...
+[Trial 0] Throughput calculation done. Setting iter_max = 139,120
+
+[Trial 0] Starting training loop.
+  iter_max = 139,120
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.13429196453517775
+  weight_decay = 0.05
+  learning_rate = 0.0007851511945434902
+
+======================================================================
+    Step     1/139120  (  0.0%) | val_loss = 3.7281
+    Step  6957/139120  (  5.0%) | val_loss = 1.3716
+    Step 13913/139120  ( 10.0%) | val_loss = 1.2705
+    Step 20869/139120  ( 15.0%) | val_loss = 1.2623
+    Step 27825/139120  ( 20.0%) | val_loss = 1.2275
+    Step 34781/139120  ( 25.0%) | val_loss = 1.1977
+    Step 41737/139120  ( 30.0%) | val_loss = 1.1751
+    Step 48693/139120  ( 35.0%) | val_loss = 1.1434
+    Step 55649/139120  ( 40.0%) | val_loss = 1.1394
+    Step 62605/139120  ( 45.0%) | val_loss = 1.1421
+    Step 69561/139120  ( 50.0%) | val_loss = 1.1188
+    Step 76517/139120  ( 55.0%) | val_loss = 1.1298
+    Step 83473/139120  ( 60.0%) | val_loss = 1.1155
+    Step 90429/139120  ( 65.0%) | val_loss = 1.1156
+    Step 97385/139120  ( 70.0%) | val_loss = 1.1155
+    Step 104341/139120  ( 75.0%) | val_loss = 1.0870
+    Step 111297/139120  ( 80.0%) | val_loss = 1.0961
+    Step 118253/139120  ( 85.0%) | val_loss = 1.0837
+    Step 125209/139120  ( 90.0%) | val_loss = 1.0618
+    Step 132165/139120  ( 95.0%) | val_loss = 1.0902
+    Step 139120/139120  (100.0%) | val_loss = 1.0625
+[Trial 0] Completed with final val_loss = 1.0625
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 1] Starting throughput calculation...
+[Trial 1] Throughput calculation done. Setting iter_max = 139,031
+
+[Trial 1] Starting training loop.
+  iter_max = 139,031
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.1869530497848733
+  weight_decay = 0.1
+  learning_rate = 0.00023363356424253154
+
+======================================================================
+    Step     1/139031  (  0.0%) | val_loss = 3.7096
+    Step  6952/139031  (  5.0%) | val_loss = 1.4929
+    Step 13903/139031  ( 10.0%) | val_loss = 1.3672
+    Step 20854/139031  ( 15.0%) | val_loss = 1.3071
+    Step 27805/139031  ( 20.0%) | val_loss = 1.2443
+    Step 34756/139031  ( 25.0%) | val_loss = 1.2378
+    Step 41707/139031  ( 30.0%) | val_loss = 1.1960
+    Step 48658/139031  ( 35.0%) | val_loss = 1.2266
+    Step 55609/139031  ( 40.0%) | val_loss = 1.1801
+    Step 62560/139031  ( 45.0%) | val_loss = 1.1585
+    Step 69511/139031  ( 50.0%) | val_loss = 1.1837
+    Step 76462/139031  ( 55.0%) | val_loss = 1.1353
+    Step 83413/139031  ( 60.0%) | val_loss = 1.1563
+    Step 90364/139031  ( 65.0%) | val_loss = 1.1414
+    Step 97315/139031  ( 70.0%) | val_loss = 1.0847
+    Step 104266/139031  ( 75.0%) | val_loss = 1.1195
+    Step 111217/139031  ( 80.0%) | val_loss = 1.1173
+    Step 118168/139031  ( 85.0%) | val_loss = 1.1077
+    Step 125119/139031  ( 90.0%) | val_loss = 1.1002
+    Step 132070/139031  ( 95.0%) | val_loss = 1.1360
+    Step 139021/139031  (100.0%) | val_loss = 1.1069
+    Step 139031/139031  (100.0%) | val_loss = 1.0805
+[Trial 1] Completed with final val_loss = 1.0805
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 2] Starting throughput calculation...
+[Trial 2] Throughput calculation done. Setting iter_max = 140,039
+
+[Trial 2] Starting training loop.
+  iter_max = 140,039
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.08654523433655677
+  weight_decay = 0.1
+  learning_rate = 0.001084447234585198
+
+======================================================================
+    Step     1/140039  (  0.0%) | val_loss = 3.7157
+    Step  7002/140039  (  5.0%) | val_loss = 1.3393
+    Step 14003/140039  ( 10.0%) | val_loss = 1.2584
+    Step 21004/140039  ( 15.0%) | val_loss = 1.2010
+    Step 28005/140039  ( 20.0%) | val_loss = 1.1851
+    Step 35006/140039  ( 25.0%) | val_loss = 1.1649
+    Step 42007/140039  ( 30.0%) | val_loss = 1.1753
+    Step 49008/140039  ( 35.0%) | val_loss = 1.1616
+    Step 56009/140039  ( 40.0%) | val_loss = 1.1560
+    Step 63010/140039  ( 45.0%) | val_loss = 1.1337
+    Step 70011/140039  ( 50.0%) | val_loss = 1.1201
+    Step 77012/140039  ( 55.0%) | val_loss = 1.1147
+    Step 84013/140039  ( 60.0%) | val_loss = 1.0903
+    Step 91014/140039  ( 65.0%) | val_loss = 1.0886
+    Step 98015/140039  ( 70.0%) | val_loss = 1.0890
+    Step 105016/140039  ( 75.0%) | val_loss = 1.0783
+    Step 112017/140039  ( 80.0%) | val_loss = 1.0790
+    Step 119018/140039  ( 85.0%) | val_loss = 1.0536
+    Step 126019/140039  ( 90.0%) | val_loss = 1.0587
+    Step 133020/140039  ( 95.0%) | val_loss = 1.0618
+    Step 140021/140039  (100.0%) | val_loss = 1.0743
+    Step 140039/140039  (100.0%) | val_loss = 1.0448
+[Trial 2] Completed with final val_loss = 1.0448
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 3] Starting throughput calculation...
+[Trial 3] Throughput calculation done. Setting iter_max = 143,045
+
+[Trial 3] Starting training loop.
+  iter_max = 143,045
+lr_schedule = constant
+  weight_decay = 0.1
+  learning_rate = 0.00011754435687991233
+
+======================================================================
+    Step     1/143045  (  0.0%) | val_loss = 3.1580
+    Step  7153/143045  (  5.0%) | val_loss = 1.3402
+    Step 14305/143045  ( 10.0%) | val_loss = 1.2712
+    Step 21457/143045  ( 15.0%) | val_loss = 1.2213
+    Step 28609/143045  ( 20.0%) | val_loss = 1.2365
+    Step 35761/143045  ( 25.0%) | val_loss = 1.1902
+    Step 42913/143045  ( 30.0%) | val_loss = 1.2023
+    Step 50065/143045  ( 35.0%) | val_loss = 1.2097
+    Step 57217/143045  ( 40.0%) | val_loss = 1.1778
+    Step 64369/143045  ( 45.0%) | val_loss = 1.1720
+    Step 71521/143045  ( 50.0%) | val_loss = 1.1582
+    Step 78673/143045  ( 55.0%) | val_loss = 1.1729
+    Step 85825/143045  ( 60.0%) | val_loss = 1.1411
+    Step 92977/143045  ( 65.0%) | val_loss = 1.1414
+    Step 100129/143045  ( 70.0%) | val_loss = 1.1604
+    Step 107281/143045  ( 75.0%) | val_loss = 1.1663
+    Step 114433/143045  ( 80.0%) | val_loss = 1.1343
+    Step 121585/143045  ( 85.0%) | val_loss = 1.1734
+    Step 128737/143045  ( 90.0%) | val_loss = 1.1249
+    Step 135889/143045  ( 95.0%) | val_loss = 1.1611
+    Step 143041/143045  (100.0%) | val_loss = 1.1511
+    Step 143045/143045  (100.0%) | val_loss = 1.1369
+[Trial 3] Completed with final val_loss = 1.1369
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 4] Starting throughput calculation...
+[Trial 4] Throughput calculation done. Setting iter_max = 142,849
+
+[Trial 4] Starting training loop.
+  iter_max = 142,849
+lr_schedule = cosine
+  weight_decay = 0.01
+  learning_rate = 0.00010886200546714577
+
+======================================================================
+    Step     1/142849  (  0.0%) | val_loss = 3.1925
+    Step  7143/142849  (  5.0%) | val_loss = 1.3115
+    Step 14285/142849  ( 10.0%) | val_loss = 1.2861
+    Step 21427/142849  ( 15.0%) | val_loss = 1.2502
+    Step 28569/142849  ( 20.0%) | val_loss = 1.2186
+    Step 35711/142849  ( 25.0%) | val_loss = 1.2011
+    Step 42853/142849  ( 30.0%) | val_loss = 1.2228
+    Step 49995/142849  ( 35.0%) | val_loss = 1.1753
+    Step 57137/142849  ( 40.0%) | val_loss = 1.1787
+    Step 64279/142849  ( 45.0%) | val_loss = 1.1854
+    Step 71421/142849  ( 50.0%) | val_loss = 1.1555
+    Step 78563/142849  ( 55.0%) | val_loss = 1.1486
+    Step 85705/142849  ( 60.0%) | val_loss = 1.1708
+    Step 92847/142849  ( 65.0%) | val_loss = 1.1633
+    Step 99989/142849  ( 70.0%) | val_loss = 1.1396
+    Step 107131/142849  ( 75.0%) | val_loss = 1.1284
+    Step 114273/142849  ( 80.0%) | val_loss = 1.1544
+    Step 121415/142849  ( 85.0%) | val_loss = 1.1327
+    Step 128557/142849  ( 90.0%) | val_loss = 1.1442
+    Step 135699/142849  ( 95.0%) | val_loss = 1.1181
+    Step 142841/142849  (100.0%) | val_loss = 1.1558
+    Step 142849/142849  (100.0%) | val_loss = 1.1294
+[Trial 4] Completed with final val_loss = 1.1294
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 5] Starting throughput calculation...
+[Trial 5] Throughput calculation done. Setting iter_max = 146,686
+
+[Trial 5] Starting training loop.
+  iter_max = 146,686
+lr_schedule = constant
+  weight_decay = 0.01
+  learning_rate = 0.0007249997757176849
+
+======================================================================
+    Step     1/146686  (  0.0%) | val_loss = 4.4723
+    Step  7335/146686  (  5.0%) | val_loss = 1.2739
+    Step 14669/146686  ( 10.0%) | val_loss = 1.2406
+    Step 22003/146686  ( 15.0%) | val_loss = 1.2231
+    Step 29337/146686  ( 20.0%) | val_loss = 1.1915
+    Step 36671/146686  ( 25.0%) | val_loss = 1.1889
+    Step 44005/146686  ( 30.0%) | val_loss = 1.1597
+    Step 51339/146686  ( 35.0%) | val_loss = 1.1253
+    Step 58673/146686  ( 40.0%) | val_loss = 1.1489
+    Step 66007/146686  ( 45.0%) | val_loss = 1.1509
+    Step 73341/146686  ( 50.0%) | val_loss = 1.1428
+    Step 80675/146686  ( 55.0%) | val_loss = 1.1515
+    Step 88009/146686  ( 60.0%) | val_loss = 1.0838
+    Step 95343/146686  ( 65.0%) | val_loss = 1.1174
+    Step 102677/146686  ( 70.0%) | val_loss = 1.0929
+    Step 110011/146686  ( 75.0%) | val_loss = 1.1377
+    Step 117345/146686  ( 80.0%) | val_loss = 1.1173
+    Step 124679/146686  ( 85.0%) | val_loss = 1.1049
+    Step 132013/146686  ( 90.0%) | val_loss = 1.1000
+    Step 139347/146686  ( 95.0%) | val_loss = 1.1013
+    Step 146681/146686  (100.0%) | val_loss = 1.1082
+    Step 146686/146686  (100.0%) | val_loss = 1.0942
+[Trial 5] Completed with final val_loss = 1.0942
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 6] Starting throughput calculation...
+[Trial 6] Throughput calculation done. Setting iter_max = 140,595
+
+[Trial 6] Starting training loop.
+  iter_max = 140,595
+lr_schedule = cosine
+  weight_decay = 0.01
+  learning_rate = 0.0021011336713749515
+
+======================================================================
+    Step     1/140595  (  0.0%) | val_loss = 4.8736
+    Step  7030/140595  (  5.0%) | val_loss = 1.3539
+    Step 14059/140595  ( 10.0%) | val_loss = 1.2562
+    Step 21088/140595  ( 15.0%) | val_loss = 1.2254
+    Step 28117/140595  ( 20.0%) | val_loss = 1.2310
+    Step 35146/140595  ( 25.0%) | val_loss = 1.1897
+    Step 42175/140595  ( 30.0%) | val_loss = 1.1856
+    Step 49204/140595  ( 35.0%) | val_loss = 1.1823
+    Step 56233/140595  ( 40.0%) | val_loss = 1.1956
+    Step 63262/140595  ( 45.0%) | val_loss = 1.1396
+    Step 70291/140595  ( 50.0%) | val_loss = 1.1526
+    Step 77320/140595  ( 55.0%) | val_loss = 1.1438
+    Step 84349/140595  ( 60.0%) | val_loss = 1.1085
+    Step 91378/140595  ( 65.0%) | val_loss = 1.1047
+    Step 98407/140595  ( 70.0%) | val_loss = 1.1098
+    Step 105436/140595  ( 75.0%) | val_loss = 1.1122
+    Step 112465/140595  ( 80.0%) | val_loss = 1.1070
+    Step 119494/140595  ( 85.0%) | val_loss = 1.1082
+    Step 126523/140595  ( 90.0%) | val_loss = 1.0808
+    Step 133552/140595  ( 95.0%) | val_loss = 1.1033
+    Step 140581/140595  (100.0%) | val_loss = 1.0887
+    Step 140595/140595  (100.0%) | val_loss = 1.1115
+[Trial 6] Completed with final val_loss = 1.1115
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 7] Starting throughput calculation...
+[Trial 7] Throughput calculation done. Setting iter_max = 134,657
+
+[Trial 7] Starting training loop.
+  iter_max = 134,657
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.1783930832166693
+  weight_decay = 0.05
+  learning_rate = 0.00023112254674899273
+
+======================================================================
+    Step     1/134657  (  0.0%) | val_loss = 3.7056
+    Step  6733/134657  (  5.0%) | val_loss = 1.4725
+    Step 13465/134657  ( 10.0%) | val_loss = 1.3577
+    Step 20197/134657  ( 15.0%) | val_loss = 1.3206
+    Step 26929/134657  ( 20.0%) | val_loss = 1.2652
+    Step 33661/134657  ( 25.0%) | val_loss = 1.2449
+    Step 40393/134657  ( 30.0%) | val_loss = 1.1874
+    Step 47125/134657  ( 35.0%) | val_loss = 1.1898
+    Step 53857/134657  ( 40.0%) | val_loss = 1.1829
+    Step 60589/134657  ( 45.0%) | val_loss = 1.1562
+    Step 67321/134657  ( 50.0%) | val_loss = 1.1412
+    Step 74053/134657  ( 55.0%) | val_loss = 1.1324
+    Step 80785/134657  ( 60.0%) | val_loss = 1.1660
+    Step 87517/134657  ( 65.0%) | val_loss = 1.1448
+    Step 94249/134657  ( 70.0%) | val_loss = 1.1174
+    Step 100981/134657  ( 75.0%) | val_loss = 1.1161
+    Step 107713/134657  ( 80.0%) | val_loss = 1.1224
+    Step 114445/134657  ( 85.0%) | val_loss = 1.0933
+    Step 121177/134657  ( 90.0%) | val_loss = 1.0518
+    Step 127909/134657  ( 95.0%) | val_loss = 1.0866
+    Step 134641/134657  (100.0%) | val_loss = 1.1074
+    Step 134657/134657  (100.0%) | val_loss = 1.1067
+[Trial 7] Completed with final val_loss = 1.1067
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 8] Starting throughput calculation...
+[Trial 8] Throughput calculation done. Setting iter_max = 134,656
+
+[Trial 8] Starting training loop.
+  iter_max = 134,656
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.042245283404149056
+  weight_decay = 0.01
+  learning_rate = 0.00014768622356070387
+
+======================================================================
+    Step     1/134656  (  0.0%) | val_loss = 3.7450
+    Step  6733/134656  (  5.0%) | val_loss = 1.3866
+    Step 13465/134656  ( 10.0%) | val_loss = 1.3052
+    Step 20197/134656  ( 15.0%) | val_loss = 1.2746
+[Trial 8] Pruned at step 21536.
+
+======================================================================
+
+[Trial 9] Starting throughput calculation...
+[Trial 9] Throughput calculation done. Setting iter_max = 141,987
+
+[Trial 9] Starting training loop.
+  iter_max = 141,987
+lr_schedule = cosine
+  weight_decay = 0.01
+  learning_rate = 0.0024871284339805415
+
+======================================================================
+    Step     1/141987  (  0.0%) | val_loss = 4.8610
+    Step  7100/141987  (  5.0%) | val_loss = 1.6066
+    Step 14199/141987  ( 10.0%) | val_loss = 1.5910
+    Step 21298/141987  ( 15.0%) | val_loss = 1.5982
+    Step 28397/141987  ( 20.0%) | val_loss = 1.7106
+    Step 35496/141987  ( 25.0%) | val_loss = 1.6595
+    Step 42595/141987  ( 30.0%) | val_loss = 1.5612
+    Step 49694/141987  ( 35.0%) | val_loss = 1.6202
+    Step 56793/141987  ( 40.0%) | val_loss = 1.5488
+    Step 63892/141987  ( 45.0%) | val_loss = 1.5499
+    Step 70991/141987  ( 50.0%) | val_loss = 1.5180
+    Step 78090/141987  ( 55.0%) | val_loss = 1.5126
+    Step 85189/141987  ( 60.0%) | val_loss = 1.4584
+    Step 92288/141987  ( 65.0%) | val_loss = 1.4732
+    Step 99387/141987  ( 70.0%) | val_loss = 1.4285
+    Step 106486/141987  ( 75.0%) | val_loss = 1.3907
+    Step 113585/141987  ( 80.0%) | val_loss = 1.4386
+    Step 120684/141987  ( 85.0%) | val_loss = 1.3784
+    Step 127783/141987  ( 90.0%) | val_loss = 1.4299
+    Step 134882/141987  ( 95.0%) | val_loss = 1.4115
+    Step 141981/141987  (100.0%) | val_loss = 1.4091
+    Step 141987/141987  (100.0%) | val_loss = 1.4044
+[Trial 9] Completed with final val_loss = 1.4044
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 10] Starting throughput calculation...
+[Trial 10] Throughput calculation done. Setting iter_max = 143,697
+
+[Trial 10] Starting training loop.
+  iter_max = 143,697
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.06324362471442874
+  weight_decay = 0.0
+  learning_rate = 0.0012543412330152952
+
+======================================================================
+    Step     1/143697  (  0.0%) | val_loss = 3.6972
+    Step  7185/143697  (  5.0%) | val_loss = 1.3303
+    Step 14369/143697  ( 10.0%) | val_loss = 1.2440
+    Step 21553/143697  ( 15.0%) | val_loss = 1.1996
+    Step 28737/143697  ( 20.0%) | val_loss = 1.1920
+    Step 35921/143697  ( 25.0%) | val_loss = 1.1951
+    Step 43105/143697  ( 30.0%) | val_loss = 1.1437
+    Step 50289/143697  ( 35.0%) | val_loss = 1.1503
+    Step 57473/143697  ( 40.0%) | val_loss = 1.1475
+    Step 64657/143697  ( 45.0%) | val_loss = 1.1175
+    Step 71841/143697  ( 50.0%) | val_loss = 1.1081
+    Step 79025/143697  ( 55.0%) | val_loss = 1.1113
+    Step 86209/143697  ( 60.0%) | val_loss = 1.0720
+    Step 93393/143697  ( 65.0%) | val_loss = 1.0838
+    Step 100577/143697  ( 70.0%) | val_loss = 1.0527
+    Step 107761/143697  ( 75.0%) | val_loss = 1.0802
+    Step 114945/143697  ( 80.0%) | val_loss = 1.0652
+    Step 122129/143697  ( 85.0%) | val_loss = 1.0697
+    Step 129313/143697  ( 90.0%) | val_loss = 1.0634
+    Step 136497/143697  ( 95.0%) | val_loss = 1.0611
+    Step 143681/143697  (100.0%) | val_loss = 1.0893
+    Step 143697/143697  (100.0%) | val_loss = 1.0579
+[Trial 10] Completed with final val_loss = 1.0579
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 11] Starting throughput calculation...
+[Trial 11] Throughput calculation done. Setting iter_max = 133,637
+
+[Trial 11] Starting training loop.
+  iter_max = 133,637
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.0529099888236651
+  weight_decay = 0.0
+  learning_rate = 0.0013674688221745487
+
+======================================================================
+    Step     1/133637  (  0.0%) | val_loss = 3.7215
+    Step  6682/133637  (  5.0%) | val_loss = 1.3602
+    Step 13363/133637  ( 10.0%) | val_loss = 1.2539
+    Step 20044/133637  ( 15.0%) | val_loss = 1.1973
+    Step 26725/133637  ( 20.0%) | val_loss = 1.2047
+    Step 33406/133637  ( 25.0%) | val_loss = 1.1743
+    Step 40087/133637  ( 30.0%) | val_loss = 1.1428
+    Step 46768/133637  ( 35.0%) | val_loss = 1.1539
+    Step 53449/133637  ( 40.0%) | val_loss = 1.1470
+    Step 60130/133637  ( 45.0%) | val_loss = 1.1267
+    Step 66811/133637  ( 50.0%) | val_loss = 1.1312
+    Step 73492/133637  ( 55.0%) | val_loss = 1.1225
+    Step 80173/133637  ( 60.0%) | val_loss = 1.0907
+    Step 86854/133637  ( 65.0%) | val_loss = 1.0906
+    Step 93535/133637  ( 70.0%) | val_loss = 1.1204
+    Step 100216/133637  ( 75.0%) | val_loss = 1.0866
+    Step 106897/133637  ( 80.0%) | val_loss = 1.0629
+    Step 113578/133637  ( 85.0%) | val_loss = 1.0572
+    Step 120259/133637  ( 90.0%) | val_loss = 1.0776
+    Step 126940/133637  ( 95.0%) | val_loss = 1.1092
+    Step 133621/133637  (100.0%) | val_loss = 1.0758
+    Step 133637/133637  (100.0%) | val_loss = 1.0673
+[Trial 11] Completed with final val_loss = 1.0673
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 12] Starting throughput calculation...
+[Trial 12] Throughput calculation done. Setting iter_max = 136,610
+
+[Trial 12] Starting training loop.
+  iter_max = 136,610
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.08892249983610252
+  weight_decay = 0.0
+  learning_rate = 0.0012151115084487883
+
+======================================================================
+    Step     1/136610  (  0.0%) | val_loss = 3.7090
+    Step  6831/136610  (  5.0%) | val_loss = 1.3361
+    Step 13661/136610  ( 10.0%) | val_loss = 1.2575
+    Step 20491/136610  ( 15.0%) | val_loss = 1.2348
+    Step 27321/136610  ( 20.0%) | val_loss = 1.1855
+    Step 34151/136610  ( 25.0%) | val_loss = 1.2124
+    Step 40981/136610  ( 30.0%) | val_loss = 1.1724
+    Step 47811/136610  ( 35.0%) | val_loss = 1.1551
+    Step 54641/136610  ( 40.0%) | val_loss = 1.1204
+    Step 61471/136610  ( 45.0%) | val_loss = 1.1433
+    Step 68301/136610  ( 50.0%) | val_loss = 1.1056
+    Step 75131/136610  ( 55.0%) | val_loss = 1.1114
+    Step 81961/136610  ( 60.0%) | val_loss = 1.0799
+    Step 88791/136610  ( 65.0%) | val_loss = 1.0672
+    Step 95621/136610  ( 70.0%) | val_loss = 1.0850
+    Step 102451/136610  ( 75.0%) | val_loss = 1.1080
+    Step 109281/136610  ( 80.0%) | val_loss = 1.0894
+    Step 116111/136610  ( 85.0%) | val_loss = 1.0836
+    Step 122941/136610  ( 90.0%) | val_loss = 1.0895
+    Step 129771/136610  ( 95.0%) | val_loss = 1.0780
+    Step 136601/136610  (100.0%) | val_loss = 1.0585
+    Step 136610/136610  (100.0%) | val_loss = 1.0551
+[Trial 12] Completed with final val_loss = 1.0551
+----------------------------------------------------------------------
+
+======================================================================
+
+[Trial 13] Starting throughput calculation...
+[Trial 13] Throughput calculation done. Setting iter_max = 139,043
+
+[Trial 13] Starting training loop.
+  iter_max = 139,043
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.10293232702012801
+  weight_decay = 0.0
+  learning_rate = 0.0004551155102263988
+
+======================================================================
+    Step     1/139043  (  0.0%) | val_loss = 3.6997
+    Step  6953/139043  (  5.0%) | val_loss = 1.3507
+    Step 13905/139043  ( 10.0%) | val_loss = 1.2975
+    Step 20857/139043  ( 15.0%) | val_loss = 1.2204
+    Step 27809/139043  ( 20.0%) | val_loss = 1.2118
+    Step 34761/139043  ( 25.0%) | val_loss = 1.2139
+    Step 41713/139043  ( 30.0%) | val_loss = 1.1641
+    Step 48665/139043  ( 35.0%) | val_loss = 1.1542
+    Step 55617/139043  ( 40.0%) | val_loss = 1.1484
+    Step 62569/139043  ( 45.0%) | val_loss = 1.1546
+    Step 69521/139043  ( 50.0%) | val_loss = 1.1259
+    Step 76473/139043  ( 55.0%) | val_loss = 1.1393
+    Step 83425/139043  ( 60.0%) | val_loss = 1.1528
+    Step 90377/139043  ( 65.0%) | val_loss = 1.1263
+[Trial 13] Pruned at step 97300.
+
+======================================================================
+
+[Trial 14] Starting throughput calculation...
+[Trial 14] Throughput calculation done. Setting iter_max = 138,323
+
+[Trial 14] Starting training loop.
+  iter_max = 138,323
+lr_schedule = warmup_decay
+. warmup_ratio  = 0.09339440128545165
+  weight_decay = 0.1
+  learning_rate = 0.001312908602550815
+
+======================================================================
+    Step     1/138323  (  0.0%) | val_loss = 3.7227
+    Step  6917/138323  (  5.0%) | val_loss = 1.3344
+    Step 13833/138323  ( 10.0%) | val_loss = 1.2400
+    Step 20749/138323  ( 15.0%) | val_loss = 1.2256
+    Step 27665/138323  ( 20.0%) | val_loss = 1.1910
+    Step 34581/138323  ( 25.0%) | val_loss = 1.1775
+    Step 41497/138323  ( 30.0%) | val_loss = 1.1604
+    Step 48413/138323  ( 35.0%) | val_loss = 1.1187
+    Step 55329/138323  ( 40.0%) | val_loss = 1.1374
+    Step 62245/138323  ( 45.0%) | val_loss = 1.1258
+    Step 69161/138323  ( 50.0%) | val_loss = 1.0844
+    Step 76077/138323  ( 55.0%) | val_loss = 1.1169
+    Step 82993/138323  ( 60.0%) | val_loss = 1.1140
+    Step 89909/138323  ( 65.0%) | val_loss = 1.0757
+    Step 96825/138323  ( 70.0%) | val_loss = 1.0862
+    Step 103741/138323  ( 75.0%) | val_loss = 1.0447
+    Step 110657/138323  ( 80.0%) | val_loss = 1.0641
+    Step 117573/138323  ( 85.0%) | val_loss = 1.0299
+    Step 124489/138323  ( 90.0%) | val_loss = 1.0827
+    Step 131405/138323  ( 95.0%) | val_loss = 1.0693
+    Step 138321/138323  (100.0%) | val_loss = 1.0550
+    Step 138323/138323  (100.0%) | val_loss = 1.0881
+[Trial 14] Completed with final val_loss = 1.0881
+----------------------------------------------------------------------
