@@ -28,6 +28,25 @@ Each folder contains:
 
 These experiments intentionally mirror the structure of the ablations: isolate one variable, observe its effect, and adopt the best setting as the new default.
 
+### **`5.bayesian_optimization_fourth_run/`**
+This folder contains the results of our main hyperparameter tuning effort using Bayesian Optimisation. Here, we jointly tune multiple sensitive hyperparameters to find the best overall configuration.
+
+This folder contains:
+- Jupyter notebooks that detail the tuning process
+- config file
+- objective_fn.py that defines the tuning objective
+- train_wrapper.py that handles model training during tuning
+- callback functions for pruning unpromising trials and saving results
+- stored study files in the form of SQLite databases
+- tuning results log
+- visualisations including:
+    - param importance plots
+    - slice plots
+    - parallel coordinate plots  
+    - optimisation history plots
+    - edf plots
+    - contour plots
+
 ---
 
 ## Thought Process Behind This Section
@@ -36,18 +55,13 @@ Hyperparameters such as dropout or gradient clipping often interact subtly with 
 
 To tune the more sensitive parameters — chiefly the learning rate schedule and weight decay — we used **Bayesian Optimisation (Optuna)**. This allowed us to explore a large search space efficiently under time limits.
 
-The `5.bayesian_optimization_fourth_run/` folder contains:
-- full Optuna study logs  
-- Jupyter notebooks analysing the results
-- tuning results log
-- visualisations including:
-- importance analyses  
-- slices/contours  
-- parallel coordinate plots  
-
 These visualisations illustrate the interaction between hyperparameters and guided the selection of the final configuration.
 
 ---
+
+## `archive_runs/`
+
+Contains older tuning experiments that were superseded by later runs. These are kept for reference but are not part of the main analysis. These runs include initial attempts that utilised incorrect settings.
 
 ## `experiment_setup/`
 
@@ -56,7 +70,3 @@ Shared utility code for running tuning experiments. Similar to the ablation vers
 ## `experiment_setup_kaggle/`
 
 Shared utility code for running tuning experiments on Kaggle’s platform. It includes adaptations for the environment and resource constraints specific to Kaggle.
-
-## `archive_runs/`
-
-Contains older tuning experiments that were superseded by later runs. These are kept for reference but are not part of the main analysis. These runs include initial attempts that utilised incorrect settings.
