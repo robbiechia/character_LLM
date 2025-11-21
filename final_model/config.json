@@ -25,18 +25,18 @@
   "throughput": {
     "max_test_iters": 2000,
     "max_test_time_in_seconds": 60,
-    "compute_budget_hours": 7
+    "compute_budget_hours": 4
   },
 
   "training": {
     "val_fraction": 0.01,
     "batch_size": 32,
 
-    "learning_rate": 0.0005442555534215833,
+    "learning_rate": 0.0009632654721866886,
     "weight_decay": 0.05,
-    "lr_schedule": "cosine",
-    "optimizer": "adam",
-    "warmup_ratio": "none",
+    "lr_schedule": "warmup_decay",
+    "optimizer": "adamw",
+    "warmup_ratio": 0.1306142633759742,
     "label_smoothing": 0.0,
     "grad_clip": "none"
   }
